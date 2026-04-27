@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Campus Parking - Sensor Testing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#191c1e",
+                        "error-container": "#ffdad6",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-container": "#eceef0",
+                        "secondary": "#006d36",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "on-secondary-fixed-variant": "#005227",
+                        "on-primary-fixed-variant": "#24467c",
+                        "surface-container-low": "#f2f4f6",
+                        "on-primary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#231700",
+                        "surface-container-high": "#e6e8ea",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed-dim": "#abc7ff",
+                        "surface-tint": "#3e5e95",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#fbbc00",
+                        "secondary-fixed-dim": "#66dd8b",
+                        "on-secondary-fixed": "#00210c",
+                        "outline": "#747781",
+                        "on-error": "#ffffff",
+                        "secondary-container": "#83fba5",
+                        "secondary-fixed": "#83fba5",
+                        "background": "#f7f9fb",
+                        "primary-container": "#002d62",
+                        "inverse-surface": "#2d3133",
+                        "on-primary-fixed": "#001b3f",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#7796d1",
+                        "on-tertiary-container": "#be8e00",
+                        "inverse-primary": "#abc7ff",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-surface-variant": "#43474f",
+                        "surface-variant": "#e0e3e5",
+                        "on-secondary-container": "#00743a",
+                        "tertiary-fixed": "#ffdfa0",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#d7e2ff",
+                        "primary": "#00193c",
+                        "surface-bright": "#f7f9fb",
+                        "surface": "#f7f9fb",
+                        "tertiary-container": "#3d2b00",
+                        "surface-dim": "#d8dadc",
+                        "outline-variant": "#c4c6d1",
+                        "on-tertiary-fixed": "#261a00",
+                        "on-surface": "#191c1e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "xl": "32px",
+                        "margin-mobile": "20px",
+                        "gutter-mobile": "12px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Public Sans"],
+                        "label-md": ["Public Sans"],
+                        "label-lg": ["Public Sans"],
+                        "label-sm": ["Public Sans"],
+                        "body-lg": ["Public Sans"],
+                        "headline-md": ["Public Sans"],
+                        "body-sm": ["Public Sans"],
+                        "headline-lg": ["Public Sans"],
+                        "headline-sm": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f7f9fb;
+            font-family: 'Public Sans', sans-serif;
+        }
+        .tonal-elevation-1 {
+            background-color: #ffffff;
+            box-shadow: 0px 2px 8px rgba(0, 45, 98, 0.04);
+            border: 1px solid #e2e8f0;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 h-16 bg-slate-50 border-b border-slate-200">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-blue-900" data-icon="menu">menu</span>
+<h1 class="text-lg font-bold tracking-tight text-blue-900 font-public-sans">Campus Parking</h1>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden border border-outline-variant">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close up professional portrait of a university faculty member with soft campus lighting background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvmkQHyQWrRP7tIYSZ0HduJP1w_EdIuzvbFUHFBoLysSFA7lPrc9GXwaAezEqhNwd32Es0MufOkXRHeZdscAMyT_SkDVdSZAxAYUj1P-1gksmw79iSruO8uvdD3u_OK2Qc_XLWh_kMikRkTe1bpyYg6LHTXBld1bAUne-uN6yHVdUByn1pVXvFqXWM_HfD5Ny1IJvV8QVzE-HVUXkS75L6TDu7qU1cXHqJesuKKDD8pD85eCYntIyBs1tO8-SxvbCJJ-ZecKI2_PuL"/>
+</div>
+</header>
+<main class="pt-20 pb-24 px-5 max-w-md mx-auto">
+<!-- Testing Mode Indicator -->
+<div class="mb-6 flex items-center gap-3 bg-tertiary-container/10 p-3 rounded-xl border border-tertiary-container/20">
+<div class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-tertiary"></span>
+</div>
+<p class="font-label-md text-on-tertiary-container">Sensor Testing Mode Active</p>
+</div>
+<!-- Real-time Occupancy Card -->
+<section class="tonal-elevation-1 rounded-xl p-md mb-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h2 class="font-headline-sm text-primary mb-1">Prueba Zone A</h2>
+<p class="font-body-sm text-on-surface-variant">Real-time Sensor Stream</p>
+</div>
+<span class="bg-secondary-container text-on-secondary-container px-2 py-1 rounded-full font-label-sm uppercase tracking-wider">Live</span>
+</div>
+<div class="flex items-end gap-2 mb-6">
+<span class="font-headline-lg text-primary">142</span>
+<span class="font-headline-sm text-on-surface-variant pb-1">/ 250</span>
+<span class="ml-auto font-label-lg text-secondary">56.8%</span>
+</div>
+<!-- Capacity Meter -->
+<div class="w-full h-3 bg-surface-container rounded-full overflow-hidden mb-2">
+<div class="h-full bg-secondary" style="width: 56.8%"></div>
+</div>
+<div class="flex justify-between font-label-sm text-outline">
+<span>Occupied</span>
+<span>Available: 108</span>
+</div>
+</section>
+<!-- Test Controls -->
+<div class="grid grid-cols-1 gap-4 mb-6">
+<div class="tonal-elevation-1 rounded-xl p-md flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="notification_important">notification_important</span>
+<div>
+<p class="font-label-lg text-on-surface">Test Alert</p>
+<p class="font-label-sm text-on-surface-variant">Trigger mock overflow</p>
+</div>
+</div>
+<!-- Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<button class="bg-primary text-on-primary py-3 rounded-xl font-label-lg flex items-center justify-center gap-2 active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined text-[20px]" data-icon="refresh">refresh</span>
+                Reset Sensor Data
+            </button>
+</div>
+<!-- Status Log (Bento Style) -->
+<section>
+<h3 class="font-label-lg text-on-surface-variant mb-3 px-1">Status Log</h3>
+<div class="space-y-3">
+<div class="tonal-elevation-1 rounded-xl p-md flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-1 h-full bg-slate-200 rounded-full relative">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-secondary border-2 border-white"></div>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<p class="font-label-md text-on-surface">Connection Stable</p>
+<span class="font-label-sm text-outline">10:42 AM</span>
+</div>
+<p class="font-body-sm text-on-surface-variant">Primary gateway reporting 99% uptime.</p>
+</div>
+</div>
+<div class="tonal-elevation-1 rounded-xl p-md flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-1 h-full bg-slate-200 rounded-full relative">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-tertiary border-2 border-white"></div>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<p class="font-label-md text-on-surface">Sensor Calibrated</p>
+<span class="font-label-sm text-outline">10:38 AM</span>
+</div>
+<p class="font-body-sm text-on-surface-variant">Unit #420-B adjusted for ambient light.</p>
+</div>
+</div>
+<div class="tonal-elevation-1 rounded-xl p-md flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-1 h-full bg-slate-200 rounded-full relative">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-error border-2 border-white"></div>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<p class="font-label-md text-on-surface">Data Spike Detected</p>
+<span class="font-label-sm text-outline">10:15 AM</span>
+</div>
+<p class="font-body-sm text-on-surface-variant">Abnormal occupancy surge in Row 4.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe bg-white border-t border-slate-200 shadow-[0_-2px_8px_rgba(0,45,98,0.04)]">
+<button class="flex flex-col items-center justify-center text-slate-400 hover:text-blue-700 transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-public-sans text-[10px] font-medium">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-blue-900 relative after:content-[''] after:absolute after:bottom-0 after:w-1 after:h-1 after:bg-blue-900 after:rounded-full transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="local_parking">local_parking</span>
+<span class="font-public-sans text-[10px] font-medium">Zones</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-400 hover:text-blue-700 transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-public-sans text-[10px] font-medium">Alerts</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-400 hover:text-blue-700 transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-public-sans text-[10px] font-medium">Profile</span>
+</button>
+</nav>
+</body></html>
