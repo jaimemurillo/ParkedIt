@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#191c1e",
+                    "error-container": "#ffdad6",
+                    "inverse-on-surface": "#eff1f3",
+                    "surface-container": "#eceef0",
+                    "secondary": "#006d36",
+                    "on-tertiary-fixed-variant": "#5c4300",
+                    "on-secondary-fixed-variant": "#005227",
+                    "on-primary-fixed-variant": "#24467c",
+                    "surface-container-low": "#f2f4f6",
+                    "on-primary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary": "#231700",
+                    "surface-container-high": "#e6e8ea",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed-dim": "#abc7ff",
+                    "surface-tint": "#3e5e95",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#fbbc00",
+                    "secondary-fixed-dim": "#66dd8b",
+                    "on-secondary-fixed": "#00210c",
+                    "outline": "#747781",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#83fba5",
+                    "secondary-fixed": "#83fba5",
+                    "background": "#f7f9fb",
+                    "primary-container": "#002d62",
+                    "inverse-surface": "#2d3133",
+                    "on-primary-fixed": "#001b3f",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#7796d1",
+                    "on-tertiary-container": "#be8e00",
+                    "inverse-primary": "#abc7ff",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-surface-variant": "#43474f",
+                    "surface-variant": "#e0e3e5",
+                    "on-secondary-container": "#00743a",
+                    "tertiary-fixed": "#ffdfa0",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#d7e2ff",
+                    "primary": "#00193c",
+                    "surface-bright": "#f7f9fb",
+                    "surface": "#f7f9fb",
+                    "tertiary-container": "#3d2b00",
+                    "surface-dim": "#d8dadc",
+                    "outline-variant": "#c4c6d1",
+                    "on-tertiary-fixed": "#261a00",
+                    "on-surface": "#191c1e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "xs": "4px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "sm": "8px",
+                    "xl": "32px",
+                    "margin-mobile": "20px",
+                    "gutter-mobile": "12px"
+            },
+            "fontFamily": {
+                    "body-md": ["Public Sans"],
+                    "label-md": ["Public Sans"],
+                    "label-lg": ["Public Sans"],
+                    "label-sm": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "headline-md": ["Public Sans"],
+                    "body-sm": ["Public Sans"],
+                    "headline-lg": ["Public Sans"],
+                    "headline-sm": ["Public Sans"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f7f9fb;
+            font-family: 'Public Sans', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface">
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 h-16 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 transition-colors duration-200 ease-in-out">
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-blue-900 dark:text-blue-400">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="text-lg font-bold tracking-tight text-blue-900 dark:text-blue-100">Campus Parking</h1>
+</div>
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-slate-200 dark:border-slate-700">
+<img alt="User Profile" data-alt="professional headshot of a smiling young man in his late 20s with a clean haircut and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRkdiVd5Q3p_ZH8Q5Xko930vbE3HOdHRMqwJTBtrljMHikyZEDTYpXQjpQCFWnN1cpuyozJzVoGSMQLXXzhmIVK7z2eK5IwIjiI7A5aw242Aoq5Q35cEt9hE7-Wekv2Hz9Pqi6WfHsTABkMmYPIvTAo42qDYQ0Ss17zBdAHmVYNZ9D3cMlC4rZNK2Q2YwDz2zOgIc8AHBIrIjWdQtOfbj3XSExPquYxhLro5Z5fHXrSezcn5i9jQLnPF4CW_WjLOKOpn7RYE10zPJb"/>
+</div>
+</div>
+</header>
+<main class="pt-20 pb-24 px-5 max-w-md mx-auto">
+<!-- Personal Greeting -->
+<section class="mb-lg">
+<h2 class="font-headline-lg text-headline-lg text-primary">Bienvenido, Juan</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Optimiza tu tiempo hoy en el campus.</p>
+</section>
+<!-- Peak Time Alert Banner (High Concurrency) -->
+<div class="mb-lg bg-error-container text-on-error-container rounded-xl p-md flex items-start gap-md shadow-sm">
+<span class="material-symbols-outlined mt-1" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div>
+<p class="font-label-lg text-label-lg">High Concurrency Alert</p>
+<p class="font-body-sm text-body-sm opacity-90">Peak parking demand detected (4:00 PM). Expect delays in Zone Estoa.</p>
+</div>
+</div>
+<!-- Section Label -->
+<div class="flex justify-between items-center mb-md">
+<h3 class="font-headline-sm text-headline-sm text-primary">Parking Zones</h3>
+<button class="font-label-md text-label-md text-on-primary-container bg-primary-fixed-dim/20 px-3 py-1 rounded-full">Ver Mapa</button>
+</div>
+<!-- Parking Zone Cards (Bento-style layout) -->
+<div class="grid grid-cols-1 gap-md">
+<!-- Zone Card: Estoa -->
+<div class="bg-white rounded-xl p-md shadow-[0_2px_8px_rgba(0,45,98,0.04)] border border-slate-200 flex items-center justify-between hover:bg-slate-50 transition-colors duration-200">
+<div class="flex items-center gap-md">
+<div class="w-14 h-14 rounded-lg bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="local_parking">local_parking</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary">Estoa</h4>
+<div class="flex items-center gap-sm mt-1">
+<span class="inline-block w-2 h-2 rounded-full bg-error"></span>
+<span class="font-label-sm text-label-sm text-error">92% Full</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</div>
+<!-- Zone Card: Canchas -->
+<div class="bg-white rounded-xl p-md shadow-[0_2px_8px_rgba(0,45,98,0.04)] border border-slate-200 flex items-center justify-between hover:bg-slate-50 transition-colors duration-200">
+<div class="flex items-center gap-md">
+<div class="w-14 h-14 rounded-lg bg-secondary-container/20 flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="sports_soccer">sports_soccer</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary">Canchas</h4>
+<div class="flex items-center gap-sm mt-1">
+<span class="inline-block w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm text-on-secondary-container">Available (45)</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</div>
+<!-- Zone Card: Prueba -->
+<div class="bg-white rounded-xl p-md shadow-[0_2px_8px_rgba(0,45,98,0.04)] border border-slate-200 flex items-center justify-between hover:bg-slate-50 transition-colors duration-200">
+<div class="flex items-center gap-md">
+<div class="w-14 h-14 rounded-lg bg-tertiary-fixed/30 flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined" data-icon="science">science</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary">Prueba</h4>
+<div class="flex items-center gap-sm mt-1">
+<span class="inline-block w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span>
+<span class="font-label-sm text-label-sm text-on-tertiary-container">Limited Access</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Capacity Meter (Specialized Component) -->
+<div class="mt-xl p-lg bg-white rounded-xl shadow-[0_2px_8px_rgba(0,45,98,0.04)] border border-slate-200">
+<div class="flex justify-between items-center mb-md">
+<p class="font-label-lg text-label-lg text-primary">Global Campus Occupancy</p>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[12px] text-secondary" style="font-variation-settings: 'FILL' 1;">circle</span>
+<span class="font-label-sm text-label-sm text-secondary">Live</span>
+</div>
+</div>
+<div class="w-full bg-surface-container rounded-full h-3 mb-sm overflow-hidden">
+<div class="bg-gradient-to-r from-secondary via-tertiary-fixed-dim to-error h-full" style="width: 78%"></div>
+</div>
+<div class="flex justify-between text-label-sm text-on-surface-variant font-label-sm">
+<span>Moderate</span>
+<span>Peak</span>
+</div>
+</div>
+</main>
+<!-- BottomNavBar Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 shadow-[0_-2px_8px_rgba(0,45,98,0.04)]">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center text-blue-900 dark:text-blue-400 relative after:content-[''] after:absolute after:bottom-0 after:w-1 after:h-1 after:bg-blue-900 dark:after:bg-blue-400 after:rounded-full active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-public-sans text-[10px] font-medium">Home</span>
+</a>
+<!-- Zones -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-blue-700 dark:hover:text-blue-300 active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="local_parking">local_parking</span>
+<span class="font-public-sans text-[10px] font-medium">Zones</span>
+</a>
+<!-- Alerts -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-blue-700 dark:hover:text-blue-300 active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-public-sans text-[10px] font-medium">Alerts</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-blue-700 dark:hover:text-blue-300 active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-public-sans text-[10px] font-medium">Profile</span>
+</a>
+</nav>
+<!-- Contextual FAB (Suppressing as per guidelines on Dashboard/Home screens normally, but rule says ONLY if primary action matches. Mapping to "New Booking" for Home) -->
+<button class="fixed bottom-20 right-6 w-14 h-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="qr_code_scanner">qr_code_scanner</span>
+</button>
+</body></html>
