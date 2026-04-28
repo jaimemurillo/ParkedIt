@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Campus Parking – Zona Prueba</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: { extend: {
+      colors: {
+        "on-background":"#191c1e","error-container":"#ffdad6","inverse-on-surface":"#eff1f3",
+        "surface-container":"#eceef0","secondary":"#006d36","on-tertiary-fixed-variant":"#5c4300",
+        "on-secondary-fixed-variant":"#005227","on-primary-fixed-variant":"#24467c",
+        "surface-container-low":"#f2f4f6","on-primary":"#ffffff","surface-container-lowest":"#ffffff",
+        "tertiary":"#231700","surface-container-high":"#e6e8ea","on-tertiary":"#ffffff",
+        "primary-fixed-dim":"#abc7ff","surface-tint":"#3e5e95","on-error-container":"#93000a",
+        "tertiary-fixed-dim":"#fbbc00","secondary-fixed-dim":"#66dd8b","on-secondary-fixed":"#00210c",
+        "outline":"#747781","on-error":"#ffffff","secondary-container":"#83fba5",
+        "secondary-fixed":"#83fba5","background":"#f7f9fb","primary-container":"#002d62",
+        "inverse-surface":"#2d3133","on-primary-fixed":"#001b3f","on-secondary":"#ffffff",
+        "on-primary-container":"#7796d1","on-tertiary-container":"#be8e00","inverse-primary":"#abc7ff",
+        "surface-container-highest":"#e0e3e5","on-surface-variant":"#43474f","surface-variant":"#e0e3e5",
+        "on-secondary-container":"#00743a","tertiary-fixed":"#ffdfa0","error":"#ba1a1a",
+        "primary-fixed":"#d7e2ff","primary":"#00193c","surface-bright":"#f7f9fb","surface":"#f7f9fb",
+        "tertiary-container":"#3d2b00","surface-dim":"#d8dadc","outline-variant":"#c4c6d1",
+        "on-tertiary-fixed":"#261a00","on-surface":"#191c1e"
+      },
+      borderRadius: { DEFAULT:"0.25rem", lg:"0.5rem", xl:"0.75rem", full:"9999px" },
+      spacing: { unit:"4px", xs:"4px", lg:"24px", md:"16px", sm:"8px", xl:"32px", "margin-mobile":"20px", "gutter-mobile":"12px" },
+      fontFamily: { "body-md":["Public Sans"],"label-md":["Public Sans"],"label-lg":["Public Sans"],"label-sm":["Public Sans"],"body-lg":["Public Sans"],"headline-md":["Public Sans"],"body-sm":["Public Sans"],"headline-lg":["Public Sans"],"headline-sm":["Public Sans"] },
+      fontSize: {
+        "body-md":["16px",{lineHeight:"24px",fontWeight:"400"}],"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"600"}],
+        "label-lg":["14px",{lineHeight:"20px",letterSpacing:"0.01em",fontWeight:"600"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.03em",fontWeight:"500"}],
+        "body-lg":["18px",{lineHeight:"28px",fontWeight:"400"}],"headline-md":["24px",{lineHeight:"32px",letterSpacing:"-0.01em",fontWeight:"600"}],
+        "body-sm":["14px",{lineHeight:"20px",fontWeight:"400"}],"headline-lg":["30px",{lineHeight:"38px",letterSpacing:"-0.02em",fontWeight:"700"}],
+        "headline-sm":["20px",{lineHeight:"28px",fontWeight:"600"}]
+      }
+    }}
+  }
+</script>
+<style>
+  .tonal-card {
+    background-color: #ffffff;
+    box-shadow: var(--shadow-card);
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+  }
+</style>
+</head>
+<body class="text-on-surface">
+
+<!-- Header -->
+<header class="app-header">
+  <div class="app-header__brand">
+    <span class="material-symbols-outlined text-primary">menu</span>
+    <h1 class="app-header__title">Campus Parking</h1>
+  </div>
+  <div class="avatar">
+    <img alt="User Profile"
+      src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvmkQHyQWrRP7tIYSZ0HduJP1w_EdIuzvbFUHFBoLysSFA7lPrc9GXwaAezEqhNwd32Es0MufOkXRHeZdscAMyT_SkDVdSZAxAYUj1P-1gksmw79iSruO8uvdD3u_OK2Qc_XLWh_kMikRkTe1bpyYg6LHTXBld1bAUne-uN6yHVdUByn1pVXvFqXWM_HfD5Ny1IJvV8QVzE-HVUXkS75L6TDu7qU1cXHqJesuKKDD8pD85eCYntIyBs1tO8-SxvbCJJ-ZecKI2_PuL"/>
+  </div>
+</header>
+
+<main class="app-main">
+
+  <!-- Testing Mode Indicator -->
+  <div class="mb-lg flex items-center gap-3 p-3 rounded-xl"
+       style="background:rgba(61,43,0,0.07); border:1px solid rgba(61,43,0,0.15);">
+    <div class="ping-wrapper">
+      <span class="ping-ring" style="background-color:var(--color-tertiary-fixed-dim);"></span>
+      <span class="ping-dot" style="background-color:var(--color-tertiary-fixed-dim);"></span>
+    </div>
+    <p class="font-label-md text-label-md" style="color:var(--color-on-tertiary-container);">Modo de Prueba de Sensores Activo</p>
+  </div>
+
+  <!-- Real-time Occupancy Card -->
+  <section class="tonal-card mb-lg">
+    <div class="flex justify-between items-start mb-md">
+      <div>
+        <h2 class="font-headline-sm text-headline-sm text-primary mb-1">Zona Prueba A</h2>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">Flujo de Sensores en Tiempo Real</p>
+      </div>
+      <span class="live-badge">
+        <span class="status-dot status-dot--live"></span>
+        En Vivo
+      </span>
+    </div>
+
+    <div class="flex items-end gap-2 mb-lg">
+      <span class="font-headline-lg text-headline-lg text-primary" id="occupied-count">142</span>
+      <span class="font-headline-sm text-on-surface-variant pb-1">/ 250</span>
+      <span class="ml-auto font-label-lg text-label-lg" style="color:var(--color-secondary);" id="pct-label">56.8%</span>
+    </div>
+
+    <div class="progress-bar-track mb-sm">
+      <div class="progress-bar-fill progress-bar-fill--ok" id="main-bar" style="width:56.8%;"></div>
+    </div>
+    <div class="flex justify-between font-label-sm text-label-sm" style="color:var(--color-outline);">
+      <span>Ocupados</span>
+      <span>Disponibles: <span id="available-count">108</span></span>
+    </div>
+  </section>
+
+  <!-- Test Controls -->
+  <div style="display:flex; flex-direction:column; gap:var(--space-md); margin-bottom:var(--space-lg);">
+
+    <!-- Alert Toggle -->
+    <div class="tonal-card flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary">notification_important</span>
+        <div>
+          <p class="font-label-lg text-label-lg text-on-surface">Alerta de Prueba</p>
+          <p class="font-label-sm text-label-sm text-on-surface-variant">Activar desbordamiento simulado</p>
+        </div>
+      </div>
+      <label class="toggle">
+        <input class="toggle__input" type="checkbox" id="overflow-toggle" onchange="toggleOverflow(this)"/>
+        <div class="toggle__track"></div>
+      </label>
+    </div>
+
+    <!-- Reset Button -->
+    <button class="btn btn--filled btn--full-width" onclick="resetSensor()">
+      <span class="material-symbols-outlined text-[20px]">refresh</span>
+      Reiniciar Datos de Sensores
+    </button>
+
+  </div>
+
+  <!-- Status Log -->
+  <section>
+    <h3 class="section-label mb-sm px-1">Registro de Estado</h3>
+    <div style="display:flex; flex-direction:column; gap:var(--space-sm);" id="log-list">
+
+      <div class="tonal-card log-item" style="padding:var(--space-md); gap:var(--space-md);">
+        <div class="log-item__timeline">
+          <div class="log-item__node log-item__node--ok"></div>
+          <div class="log-item__line"></div>
+        </div>
+        <div style="flex:1;">
+          <div class="flex justify-between items-center mb-1">
+            <p class="font-label-md text-label-md text-on-surface">Conexión Estable</p>
+            <span class="font-label-sm text-label-sm" style="color:var(--color-outline);">10:42 AM</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">Puerta de enlace principal reportando 99% de tiempo activo.</p>
+        </div>
+      </div>
+
+      <div class="tonal-card log-item" style="padding:var(--space-md); gap:var(--space-md);">
+        <div class="log-item__timeline">
+          <div class="log-item__node" style="background-color:var(--color-tertiary-fixed-dim);"></div>
+          <div class="log-item__line"></div>
+        </div>
+        <div style="flex:1;">
+          <div class="flex justify-between items-center mb-1">
+            <p class="font-label-md text-label-md text-on-surface">Sensor Calibrado</p>
+            <span class="font-label-sm text-label-sm" style="color:var(--color-outline);">10:38 AM</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">Unidad #420-B ajustada para luz ambiental.</p>
+        </div>
+      </div>
+
+      <div class="tonal-card log-item" style="padding:var(--space-md); gap:var(--space-md);">
+        <div class="log-item__timeline">
+          <div class="log-item__node log-item__node--error"></div>
+        </div>
+        <div style="flex:1;">
+          <div class="flex justify-between items-center mb-1">
+            <p class="font-label-md text-label-md text-on-surface">Pico de Datos Detectado</p>
+            <span class="font-label-sm text-label-sm" style="color:var(--color-outline);">10:15 AM</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">Surge anormal de ocupación en Fila 4.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <a href="index.html" class="bottom-nav__item">
+    <span class="material-symbols-outlined">dashboard</span>
+    <span>Home</span>
+  </a>
+  <a href="estacionamientoPrueba.html" class="bottom-nav__item active">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">local_parking</span>
+    <span>Zonas</span>
+  </a>
+  <a href="#" class="bottom-nav__item">
+    <span class="material-symbols-outlined">notifications</span>
+    <span>Alertas</span>
+  </a>
+  <a href="#" class="bottom-nav__item">
+    <span class="material-symbols-outlined">person</span>
+    <span>Perfil</span>
+  </a>
+</nav>
+
+<script>
+  function toggleOverflow(checkbox) {
+    const bar   = document.getElementById('main-bar');
+    const count = document.getElementById('occupied-count');
+    const avail = document.getElementById('available-count');
+    const pct   = document.getElementById('pct-label');
+    const log   = document.getElementById('log-list');
+
+    if (checkbox.checked) {
+      bar.style.width = '98%';
+      bar.classList.remove('progress-bar-fill--ok');
+      bar.classList.add('progress-bar-fill--error');
+      count.textContent = '245';
+      avail.textContent = '5';
+      pct.textContent   = '98%';
+      pct.style.color   = 'var(--color-error)';
+
+      // Insert new log entry
+      const entry = document.createElement('div');
+      entry.className = 'tonal-card log-item';
+      entry.style.cssText = 'padding:var(--space-md); gap:var(--space-md); border-color:var(--color-error-container);';
+      const now = new Date().toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'});
+      entry.innerHTML = `
+        <div class="log-item__timeline">
+          <div class="log-item__node log-item__node--error"></div>
+        </div>
+        <div style="flex:1;">
+          <div class="flex justify-between items-center mb-1">
+            <p class="font-label-md text-label-md" style="color:var(--color-error);">⚠ Desbordamiento Simulado</p>
+            <span class="font-label-sm text-label-sm" style="color:var(--color-outline);">${now}</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">Alerta de prueba activada manualmente.</p>
+        </div>`;
+      log.prepend(entry);
+    } else {
+      bar.style.width = '56.8%';
+      bar.classList.remove('progress-bar-fill--error');
+      bar.classList.add('progress-bar-fill--ok');
+      count.textContent = '142';
+      avail.textContent = '108';
+      pct.textContent   = '56.8%';
+      pct.style.color   = 'var(--color-secondary)';
+    }
+  }
+
+  function resetSensor() {
+    const toggle = document.getElementById('overflow-toggle');
+    toggle.checked = false;
+    toggleOverflow(toggle);
+
+    const bar = document.getElementById('main-bar');
+    bar.style.width = '0%';
+    setTimeout(() => { bar.style.width = '56.8%'; }, 100);
+
+    // Add reset log entry
+    const log  = document.getElementById('log-list');
+    const entry = document.createElement('div');
+    entry.className = 'tonal-card log-item';
+    entry.style.cssText = 'padding:var(--space-md); gap:var(--space-md);';
+    const now = new Date().toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'});
+    entry.innerHTML = `
+      <div class="log-item__timeline">
+        <div class="log-item__node log-item__node--ok"></div>
+      </div>
+      <div style="flex:1;">
+        <div class="flex justify-between items-center mb-1">
+          <p class="font-label-md text-label-md text-on-surface">Reinicio de Sensores</p>
+          <span class="font-label-sm text-label-sm" style="color:var(--color-outline);">${now}</span>
+        </div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">Todos los datos de sensores reiniciados a valores base.</p>
+      </div>`;
+    log.prepend(entry);
+  }
+</script>
+</body>
+</html>
