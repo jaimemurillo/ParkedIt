@@ -69,6 +69,61 @@
 
 <main class="app-main">
 
+  <!-- ESP32 Sensor Panel -->
+  <section class="tonal-card mb-lg" id="esp32-panel">
+    <div class="flex justify-between items-start mb-md">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary">sensors</span>
+        <div>
+          <p class="font-label-lg text-label-lg text-on-surface">Sensor ESP32 Físico</p>
+          <p class="font-label-sm text-label-sm text-on-surface-variant">Sensor Ultrasónico HC-SR04 vía Serial</p>
+        </div>
+      </div>
+      <span id="esp32-badge" class="live-badge" style="background:var(--color-surface-container); color:var(--color-outline); gap:6px;">
+        <span id="esp32-dot" class="status-dot" style="background:#9ca3af;"></span>
+        <span id="esp32-badge-text">Inactivo</span>
+      </span>
+    </div>
+
+    <!-- Bridge URL Config -->
+    <div class="flex gap-2 mb-sm items-center">
+      <input
+        id="esp32-url"
+        type="text"
+        placeholder="http://localhost:5050/sensor"
+        value="http://localhost:5050/sensor"
+        class="flex-1 rounded-lg border border-outline-variant bg-surface-container-low px-3 py-2 font-body-sm text-body-sm text-on-surface outline-none focus:border-primary"
+        style="font-family: monospace; font-size:12px;"
+      />
+      <button onclick="connectESP32()" id="btn-connect" class="btn btn--filled" style="white-space:nowrap; padding: 8px 16px;">
+        <span class="material-symbols-outlined text-[18px]">usb</span>
+        Conectar
+      </button>
+    </div>
+    <p class="font-label-sm text-label-sm mb-md" style="color:var(--color-outline);">
+      &#9432; Requiere correr <code style="background:var(--color-surface-container); padding:1px 5px; border-radius:4px;">esp32_bridge.py</code> en tu computadora con el ESP32 conectado por USB.
+    </p>
+
+    <!-- Sensor Reading -->
+    <div id="esp32-reading-section" style="display:none;">
+      <div class="flex items-center justify-between p-3 rounded-xl"
+           id="esp32-status-bar"
+           style="background:var(--color-surface-container); border:1px solid var(--color-outline-variant);">
+        <div class="flex items-center gap-3">
+          <span class="material-symbols-outlined" id="esp32-icon" style="color:var(--color-outline); font-size:28px;">sensors_off</span>
+          <div>
+            <p class="font-label-lg text-label-lg" id="esp32-status-text" style="color:var(--color-on-surface);">Sin datos</p>
+            <p class="font-body-sm text-body-sm text-on-surface-variant" id="esp32-distance-text">Distancia: —</p>
+          </div>
+        </div>
+        <div class="text-right">
+          <p class="font-headline-sm text-headline-sm" id="esp32-distance-num" style="color:var(--color-primary);">—</p>
+          <p class="font-label-sm text-label-sm text-on-surface-variant">cm</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Testing Mode Indicator -->
   <div class="mb-lg flex items-center gap-3 p-3 rounded-xl"
        style="background:rgba(61,43,0,0.07); border:1px solid rgba(61,43,0,0.15);">
@@ -205,7 +260,137 @@
 </nav>
 
 <script>
-  function toggleOverflow(checkbox) {
+  // ─── ESP32 Integration (Serial Bridge) ──────────────────────────────────────
+  // El ESP32 envía datos por Serial USB.
+  // Un script Python (esp32_bridge.py) los lee y expone GET /sensor → JSON:
+  //   { "cajon": 1, "distancia_cm": 95.3, "estado": "OCUPADO" }
+  // El HTML hace polling a ese servidor local cada 2 s.
+
+  let esp32Interval = null;
+  let esp32Connected = false;
+
+  function connectESP32() {
+    const url = document.getElementById('esp32-url').value.trim();
+    if (!url) { alert('Por favor ingresa la URL del puente.'); return; }
+    clearInterval(esp32Interval);
+    setBadge('connecting');
+    fetchESP32(url);
+    esp32Interval = setInterval(() => fetchESP32(url), 2000);
+  }
+
+  async function fetchESP32(url) {
+    try {
+      const res = await fetch(url, { signal: AbortSignal.timeout(1800) });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      // Acepta el campo "estado" que ya manda el Arduino: "OCUPADO" | "LIBRE"
+      const estado   = (data.estado || '').toUpperCase();
+      const distancia = parseFloat(data.distancia_cm);
+      if (!estado) throw new Error('Respuesta sin campo estado');
+      onESP32Data(estado, isNaN(distancia) ? null : distancia);
+    } catch (err) {
+      onESP32Error(err.message);
+    }
+  }
+
+  function onESP32Data(estado, distancia) {
+    const section   = document.getElementById('esp32-reading-section');
+    const bar       = document.getElementById('esp32-status-bar');
+    const icon      = document.getElementById('esp32-icon');
+    const statusTxt = document.getElementById('esp32-status-text');
+    const distTxt   = document.getElementById('esp32-distance-text');
+    const distNum   = document.getElementById('esp32-distance-num');
+
+    section.style.display = 'block';
+    distNum.textContent   = distancia !== null ? distancia.toFixed(1) : '—';
+    distTxt.textContent   = distancia !== null
+      ? `Distancia: ${distancia.toFixed(1)} cm`
+      : 'Distancia: lectura inválida';
+
+    const ocupado = estado === 'OCUPADO';
+    if (ocupado) {
+      bar.style.background  = 'rgba(186,26,26,0.07)';
+      bar.style.borderColor = 'rgba(186,26,26,0.3)';
+      icon.textContent      = 'directions_car';
+      icon.style.color      = 'var(--color-error)';
+      statusTxt.textContent = 'Lugar OCUPADO';
+      statusTxt.style.color = 'var(--color-error)';
+      distNum.style.color   = 'var(--color-error)';
+    } else {
+      bar.style.background  = 'rgba(0,109,54,0.07)';
+      bar.style.borderColor = 'rgba(0,109,54,0.25)';
+      icon.textContent      = 'check_circle';
+      icon.style.color      = 'var(--color-secondary)';
+      statusTxt.textContent = 'Lugar LIBRE';
+      statusTxt.style.color = 'var(--color-secondary)';
+      distNum.style.color   = 'var(--color-secondary)';
+    }
+
+    if (!esp32Connected) {
+      esp32Connected = true;
+      addLogEntry('ok', 'ESP32 Conectado', `Puente serial activo · cajón ${1}`);
+    }
+    setBadge('online');
+  }
+
+  function onESP32Error(msg) {
+    const wasConnected = esp32Connected;
+    esp32Connected = false;
+    setBadge('offline');
+    const section = document.getElementById('esp32-reading-section');
+    if (section.style.display === 'block') {
+      const icon      = document.getElementById('esp32-icon');
+      const statusTxt = document.getElementById('esp32-status-text');
+      const bar       = document.getElementById('esp32-status-bar');
+      icon.textContent      = 'sensors_off';
+      icon.style.color      = 'var(--color-outline)';
+      statusTxt.textContent = 'Sin señal';
+      statusTxt.style.color = 'var(--color-on-surface)';
+      bar.style.background  = 'var(--color-surface-container)';
+      bar.style.borderColor = 'var(--color-outline-variant)';
+    }
+    if (wasConnected) addLogEntry('error', 'ESP32 Desconectado', msg);
+  }
+
+  function setBadge(state) {
+    const badge    = document.getElementById('esp32-badge');
+    const dot      = document.getElementById('esp32-dot');
+    const badgeTxt = document.getElementById('esp32-badge-text');
+    const states = {
+      connecting: { bg:'var(--color-surface-container)',   color:'var(--color-outline)',   dot:'#fb923c', text:'Conectando…' },
+      online:     { bg:'rgba(0,109,54,0.10)',              color:'var(--color-secondary)', dot:'#22c55e', text:'En Línea'    },
+      offline:    { bg:'rgba(186,26,26,0.08)',             color:'var(--color-error)',     dot:'#ef4444', text:'Sin Señal'   },
+    };
+    const s = states[state] || states.offline;
+    badge.style.background = s.bg;
+    badge.style.color      = s.color;
+    dot.style.background   = s.dot;
+    badgeTxt.textContent   = s.text;
+  }
+
+  function addLogEntry(type, title, detail) {
+    const log   = document.getElementById('log-list');
+    const entry = document.createElement('div');
+    entry.className = 'tonal-card log-item';
+    entry.style.cssText = `padding:var(--space-md); gap:var(--space-md);${type==='error'?' border-color:var(--color-error-container);':''}`;
+    const now = new Date().toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'});
+    const nodeClass = type === 'ok' ? 'log-item__node--ok' : type === 'error' ? 'log-item__node--error' : '';
+    entry.innerHTML = `
+      <div class="log-item__timeline">
+        <div class="log-item__node ${nodeClass}"></div>
+      </div>
+      <div style="flex:1;">
+        <div class="flex justify-between items-center mb-1">
+          <p class="font-label-md text-label-md" style="${type==='error'?'color:var(--color-error);':''}">${title}</p>
+          <span class="font-label-sm text-label-sm" style="color:var(--color-outline);">${now}</span>
+        </div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">${detail}</p>
+      </div>`;
+    log.prepend(entry);
+  }
+  // ─────────────────────────────────────────────────────────────────────────
+
+
     const bar   = document.getElementById('main-bar');
     const count = document.getElementById('occupied-count');
     const avail = document.getElementById('available-count');
