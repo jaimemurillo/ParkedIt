@@ -52,6 +52,17 @@
     border-radius: var(--radius-lg);
     padding: var(--space-md);
   }
+  /* LED indicator */
+  .led {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+  }
+  .led--gray  { background: #9ca3af; box-shadow: none; }
+  .led--green { background: #22c55e; box-shadow: 0 0 8px 2px rgba(34,197,94,0.5); }
+  .led--red   { background: #ef4444; box-shadow: 0 0 8px 2px rgba(239,68,68,0.5); }
 </style>
 </head>
 <body class="text-on-surface">
@@ -59,8 +70,10 @@
 <!-- Header -->
 <header class="app-header">
   <div class="app-header__brand">
-    <span class="material-symbols-outlined text-primary">menu</span>
-    <h1 class="app-header__title">ParkedIt</h1>
+    <a href="index.html" class="icon-btn">
+      <span class="material-symbols-outlined text-primary">arrow_back</span>
+    </a>
+    <h1 class="app-header__title">Zona Prueba</h1>
   </div>
   <div class="avatar">
     <img alt="User Profile"
@@ -101,95 +114,19 @@
         Conectar
       </button>
     </div>
-    <p class="font-label-sm text-label-sm mb-md" style="color:var(--color-outline);">
-      &#9432; Requiere correr <code style="background:var(--color-surface-container); padding:1px 5px; border-radius:4px;">node server.js</code> en tu computadora.
+    <p class="font-label-sm text-label-sm mb-lg" style="color:var(--color-outline);">
+      &#9432; El ESP32 debe estar conectado al mismo backend.
     </p>
 
-    <!-- Slot 1 reading -->
-    <div id="slot-reading" style="display:none;">
-      <div class="flex items-center justify-between p-3 rounded-xl"
-           id="slot-status-bar"
-           style="background:var(--color-surface-container); border:1px solid var(--color-outline-variant);">
-        <div class="flex items-center gap-3">
-          <span class="material-symbols-outlined" id="slot-icon" style="color:var(--color-outline); font-size:28px;">sensors_off</span>
-          <div>
-            <p class="font-label-lg text-label-lg" id="slot-status-text" style="color:var(--color-on-surface);">Sin datos</p>
-            <p class="font-body-sm text-body-sm text-on-surface-variant" id="slot-detail-text">Esperando datos del ESP32…</p>
-          </div>
-        </div>
-        <div class="text-right">
-          <p class="font-label-sm text-label-sm text-on-surface-variant">Cajón</p>
-          <p class="font-headline-sm text-headline-sm" id="slot-id-label" style="color:var(--color-primary);">—</p>
-        </div>
+    <!-- LED + Estado -->
+    <div class="flex items-center justify-center gap-4 py-lg">
+      <div id="slot-led" class="led led--gray"></div>
+      <div class="text-center">
+        <p class="font-headline-md text-headline-md" id="slot-status-text" style="color:var(--color-outline);">Sin conexión</p>
+        <p class="font-body-sm text-body-sm text-on-surface-variant" id="slot-detail-text">Conecta el backend para ver el sensor</p>
       </div>
     </div>
   </section>
-
-  <!-- Testing Mode Indicator -->
-
-  <!-- Testing Mode Indicator -->
-  <div class="mb-lg flex items-center gap-3 p-3 rounded-xl"
-       style="background:rgba(61,43,0,0.07); border:1px solid rgba(61,43,0,0.15);">
-    <div class="ping-wrapper">
-      <span class="ping-ring" style="background-color:var(--color-tertiary-fixed-dim);"></span>
-      <span class="ping-dot" style="background-color:var(--color-tertiary-fixed-dim);"></span>
-    </div>
-    <p class="font-label-md text-label-md" style="color:var(--color-on-tertiary-container);">Modo de Prueba de Sensores Activo</p>
-  </div>
-
-  <!-- Real-time Occupancy Card -->
-  <section class="tonal-card mb-lg">
-    <div class="flex justify-between items-start mb-md">
-      <div>
-        <h2 class="font-headline-sm text-headline-sm text-primary mb-1">Zona Prueba A</h2>
-        <p class="font-body-sm text-body-sm text-on-surface-variant">Flujo de Sensores en Tiempo Real</p>
-      </div>
-      <span class="live-badge">
-        <span class="status-dot status-dot--live"></span>
-        En Vivo
-      </span>
-    </div>
-
-    <div class="flex items-end gap-2 mb-lg">
-      <span class="font-headline-lg text-headline-lg text-primary" id="occupied-count">142</span>
-      <span class="font-headline-sm text-on-surface-variant pb-1">/ 250</span>
-      <span class="ml-auto font-label-lg text-label-lg" style="color:var(--color-secondary);" id="pct-label">56.8%</span>
-    </div>
-
-    <div class="progress-bar-track mb-sm">
-      <div class="progress-bar-fill progress-bar-fill--ok" id="main-bar" style="width:56.8%;"></div>
-    </div>
-    <div class="flex justify-between font-label-sm text-label-sm" style="color:var(--color-outline);">
-      <span>Ocupados</span>
-      <span>Disponibles: <span id="available-count">108</span></span>
-    </div>
-  </section>
-
-  <!-- Test Controls -->
-  <div style="display:flex; flex-direction:column; gap:var(--space-md); margin-bottom:var(--space-lg);">
-
-    <!-- Alert Toggle -->
-    <div class="tonal-card flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <span class="material-symbols-outlined text-primary">notification_important</span>
-        <div>
-          <p class="font-label-lg text-label-lg text-on-surface">Alerta de Prueba</p>
-          <p class="font-label-sm text-label-sm text-on-surface-variant">Activar desbordamiento simulado</p>
-        </div>
-      </div>
-      <label class="toggle">
-        <input class="toggle__input" type="checkbox" id="overflow-toggle" onchange="toggleOverflow(this)"/>
-        <div class="toggle__track"></div>
-      </label>
-    </div>
-
-    <!-- Reset Button -->
-    <button class="btn btn--filled btn--full-width" onclick="resetSensor()">
-      <span class="material-symbols-outlined text-[20px]">refresh</span>
-      Reiniciar Datos de Sensores
-    </button>
-
-  </div>
 
   <!-- Status Log -->
   <section>
@@ -263,24 +200,12 @@
 </nav>
 
 <script>
-  // ═══════════════════════════════════════════════════════════════════════
-  //  ParkedIt – Socket.IO Integration
-  //  El ESP32 envía POST /api/parking al backend (server.js).
-  //  El backend emite "updateSlot" por Socket.IO a todos los clientes.
-  //  Este script escucha ese evento y actualiza el UI en tiempo real.
-  // ═══════════════════════════════════════════════════════════════════════
-
   let socket = null;
 
-  // ── Conectar al backend ──────────────────────────────────────────────
   function connectSocket() {
-    const url = document.getElementById('server-url').value.trim() || 'http://localhost:3000';
-
-    // Desconectar socket anterior si existe
+    const url = document.getElementById('server-url').value.trim() || 'https://parkedit-production.up.railway.app';
     if (socket) { socket.disconnect(); socket = null; }
-
     setBadge('connecting');
-
     socket = io(url, { transports: ['websocket', 'polling'] });
 
     socket.on('connect', () => {
@@ -288,72 +213,42 @@
       addLogEntry('ok', 'Backend conectado', `Socket.IO activo en ${url}`);
     });
 
-    // Estado inicial de todos los slots al conectar
     socket.on('allSlots', (slotsData) => {
       Object.values(slotsData).forEach(slot => applySlotUpdate(slot, false));
     });
 
-    // Actualización en tiempo real de un slot
     socket.on('updateSlot', (data) => {
       applySlotUpdate(data, true);
     });
 
     socket.on('disconnect', () => {
       setBadge('offline');
+      setLed('gray', 'Sin conexión', 'Se perdió la conexión con el backend');
       addLogEntry('error', 'Backend desconectado', 'Se perdió la conexión con el servidor.');
     });
 
-    socket.on('connect_error', (err) => {
+    socket.on('connect_error', () => {
       setBadge('offline');
-      console.warn('[socket] error de conexión:', err.message);
+      setLed('gray', 'Sin conexión', 'No se pudo conectar al backend');
     });
   }
 
-  // ── Procesar actualización de slot ───────────────────────────────────
   function applySlotUpdate(data, animate) {
     const { slot_id, status } = data;
     const ocupado = status === 'occupied';
 
-    // ── Panel ESP32 (slot 1 solamente) ──
     if (String(slot_id) === '1') {
-      const section    = document.getElementById('slot-reading');
-      const bar        = document.getElementById('slot-status-bar');
-      const icon       = document.getElementById('slot-icon');
-      const statusTxt  = document.getElementById('slot-status-text');
-      const detailTxt  = document.getElementById('slot-detail-text');
-      const idLabel    = document.getElementById('slot-id-label');
-
-      section.style.display = 'block';
-      idLabel.textContent   = slot_id;
-
       const ts = data.updated_at
         ? new Date(data.updated_at).toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit', second:'2-digit'})
         : '';
 
       if (ocupado) {
-        bar.style.background  = 'rgba(186,26,26,0.07)';
-        bar.style.borderColor = 'rgba(186,26,26,0.3)';
-        icon.textContent      = 'directions_car';
-        icon.style.color      = 'var(--color-error)';
-        statusTxt.textContent = 'Lugar OCUPADO';
-        statusTxt.style.color = 'var(--color-error)';
-        detailTxt.textContent = ts ? `Detectado a las ${ts}` : 'Vehículo detectado';
+        setLed('red', 'OCUPADO', ts ? `Detectado a las ${ts}` : 'Vehículo detectado');
       } else {
-        bar.style.background  = 'rgba(0,109,54,0.07)';
-        bar.style.borderColor = 'rgba(0,109,54,0.25)';
-        icon.textContent      = 'check_circle';
-        icon.style.color      = 'var(--color-secondary)';
-        statusTxt.textContent = 'Lugar LIBRE';
-        statusTxt.style.color = 'var(--color-secondary)';
-        detailTxt.textContent = ts ? `Liberado a las ${ts}` : 'Sin vehículo';
+        setLed('green', 'LIBRE', ts ? `Liberado a las ${ts}` : 'Sin vehículo');
       }
     }
 
-    // ── Contador global (occupied-count / available-count) ──
-    // Re-calcula ocupados del estado en memoria
-    updateOccupancyCounter(slot_id, status);
-
-    // ── Log (solo si viene en tiempo real) ──
     if (animate) {
       const label = ocupado ? 'Cajón ocupado' : 'Cajón libre';
       const type  = ocupado ? 'error' : 'ok';
@@ -361,37 +256,25 @@
     }
   }
 
-  // ── Contador de ocupación ────────────────────────────────────────────
-  const slotMemory = {};  // { slot_id: 'occupied'|'free' }
-
-  function updateOccupancyCounter(slot_id, status) {
-    slotMemory[slot_id] = status;
-    const total    = 250;
-    const occupied = Object.values(slotMemory).filter(s => s === 'occupied').length;
-    const free     = total - occupied;
-    const pctVal   = ((occupied / total) * 100).toFixed(1);
-
-    document.getElementById('occupied-count').textContent = occupied;
-    document.getElementById('available-count').textContent = free;
-    document.getElementById('pct-label').textContent = `${pctVal}%`;
-    const bar = document.getElementById('main-bar');
-    bar.style.width = `${pctVal}%`;
-    const isHigh = occupied / total > 0.9;
-    bar.classList.toggle('progress-bar-fill--error', isHigh);
-    bar.classList.toggle('progress-bar-fill--ok', !isHigh);
-    document.getElementById('pct-label').style.color = isHigh
-      ? 'var(--color-error)' : 'var(--color-secondary)';
+  function setLed(color, statusText, detailText) {
+    const led    = document.getElementById('slot-led');
+    const status = document.getElementById('slot-status-text');
+    const detail = document.getElementById('slot-detail-text');
+    led.className = `led led--${color}`;
+    status.textContent = statusText;
+    detail.textContent = detailText;
+    const colors = { gray: 'var(--color-outline)', green: 'var(--color-secondary)', red: 'var(--color-error)' };
+    status.style.color = colors[color] || 'var(--color-outline)';
   }
 
-  // ── Badge de conexión ────────────────────────────────────────────────
   function setBadge(state) {
     const badge    = document.getElementById('esp32-badge');
     const dot      = document.getElementById('esp32-dot');
     const badgeTxt = document.getElementById('esp32-badge-text');
     const states = {
-      connecting: { bg:'var(--color-surface-container)',  color:'var(--color-outline)',   dot:'#fb923c', text:'Conectando…'   },
-      online:     { bg:'rgba(0,109,54,0.10)',             color:'var(--color-secondary)', dot:'#22c55e', text:'En Línea'       },
-      offline:    { bg:'rgba(186,26,26,0.08)',            color:'var(--color-error)',     dot:'#ef4444', text:'Sin Señal'      },
+      connecting: { bg:'var(--color-surface-container)',  color:'var(--color-outline)',   dot:'#fb923c', text:'Conectando…' },
+      online:     { bg:'rgba(0,109,54,0.10)',             color:'var(--color-secondary)', dot:'#22c55e', text:'En Línea'    },
+      offline:    { bg:'rgba(186,26,26,0.08)',            color:'var(--color-error)',     dot:'#ef4444', text:'Sin Señal'   },
     };
     const s = states[state] || states.offline;
     badge.style.background = s.bg;
@@ -400,11 +283,10 @@
     badgeTxt.textContent   = s.text;
   }
 
-  // ── Log de estado ────────────────────────────────────────────────────
   function addLogEntry(type, title, detail) {
     const log   = document.getElementById('log-list');
     const entry = document.createElement('div');
-    entry.className    = 'tonal-card log-item';
+    entry.className = 'tonal-card log-item';
     entry.style.cssText = `padding:var(--space-md); gap:var(--space-md);${type==='error'?' border-color:var(--color-error-container);':''}`;
     const now = new Date().toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'});
     const nodeClass = type === 'ok' ? 'log-item__node--ok' : type === 'error' ? 'log-item__node--error' : '';
@@ -420,69 +302,6 @@
         <p class="font-body-sm text-body-sm text-on-surface-variant">${detail}</p>
       </div>`;
     log.prepend(entry);
-  }
-
-  // ── Controles de prueba existentes ───────────────────────────────────
-  function toggleOverflow(checkbox) {
-    const bar   = document.getElementById('main-bar');
-    const count = document.getElementById('occupied-count');
-    const avail = document.getElementById('available-count');
-    const pct   = document.getElementById('pct-label');
-
-    if (checkbox.checked) {
-      bar.style.width = '98%';
-      bar.classList.remove('progress-bar-fill--ok');
-      bar.classList.add('progress-bar-fill--error');
-      count.textContent = '245';
-      avail.textContent = '5';
-      pct.textContent   = '98%';
-      pct.style.color   = 'var(--color-error)';
-      const entry = document.createElement('div');
-      entry.className = 'tonal-card log-item';
-      entry.style.cssText = 'padding:var(--space-md); gap:var(--space-md); border-color:var(--color-error-container);';
-      const now = new Date().toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'});
-      entry.innerHTML = `
-        <div class="log-item__timeline"><div class="log-item__node log-item__node--error"></div></div>
-        <div style="flex:1;">
-          <div class="flex justify-between items-center mb-1">
-            <p class="font-label-md text-label-md" style="color:var(--color-error);">⚠ Desbordamiento Simulado</p>
-            <span class="font-label-sm text-label-sm" style="color:var(--color-outline);">${now}</span>
-          </div>
-          <p class="font-body-sm text-body-sm text-on-surface-variant">Alerta de prueba activada manualmente.</p>
-        </div>`;
-      document.getElementById('log-list').prepend(entry);
-    } else {
-      bar.style.width = '56.8%';
-      bar.classList.remove('progress-bar-fill--error');
-      bar.classList.add('progress-bar-fill--ok');
-      count.textContent = '142';
-      avail.textContent = '108';
-      pct.textContent   = '56.8%';
-      pct.style.color   = 'var(--color-secondary)';
-    }
-  }
-
-  function resetSensor() {
-    const toggle = document.getElementById('overflow-toggle');
-    toggle.checked = false;
-    toggleOverflow(toggle);
-    const bar = document.getElementById('main-bar');
-    bar.style.width = '0%';
-    setTimeout(() => { bar.style.width = '56.8%'; }, 100);
-    const entry = document.createElement('div');
-    entry.className = 'tonal-card log-item';
-    entry.style.cssText = 'padding:var(--space-md); gap:var(--space-md);';
-    const now = new Date().toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'});
-    entry.innerHTML = `
-      <div class="log-item__timeline"><div class="log-item__node log-item__node--ok"></div></div>
-      <div style="flex:1;">
-        <div class="flex justify-between items-center mb-1">
-          <p class="font-label-md text-label-md text-on-surface">Reinicio de Sensores</p>
-          <span class="font-label-sm text-label-sm" style="color:var(--color-outline);">${now}</span>
-        </div>
-        <p class="font-body-sm text-body-sm text-on-surface-variant">Todos los datos reiniciados a valores base.</p>
-      </div>`;
-    document.getElementById('log-list').prepend(entry);
   }
 </script>
 </body>
