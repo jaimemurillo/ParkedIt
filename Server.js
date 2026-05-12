@@ -72,7 +72,7 @@ io.on('connection', (socket) => {
 });
 
 // ── Arranque ───────────────────────────────────────────────────────────────
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
   console.log(`\n✅ ParkedIt backend corriendo en http://localhost:${PORT}`);
   console.log(`   POST http://localhost:${PORT}/api/parking`);
